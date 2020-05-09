@@ -17,5 +17,7 @@ node_modules
 .idea/*
 *.iml
 projectFilesBackup
+db/
 
 .DS_Store
+.vscode

@@ -2,13 +2,32 @@
 version: '3'
 services:
   ghost-for-theme-creators:
+    depends_on:
+      - db
     image: poeticthemes/ghost-for-theme-creators
     ports:
       - 80:2368
     volumes:
       # Mount source code into casper directory to set it as the current theme:
       - ./:/var/lib/ghost/content/themes/casper/
+      - ./db:/var/lib/ghost/content/data/
     restart: always
     environment:
+      # see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
       - url=http://localhost
       - NODE_ENV=development
+      - database__client=mysql
+      - database__connection__host=db
+      - database__connection__user=root
+      - database__connection__password=root
+      - database__connection__database=ghost_prod
+  db:
+    image: mysql:8.0.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./db/config/my.conf:/etc/mysql/conf.d/config-file.cnf"
+      - "./db/data:/var/lib/mysql:rw"
