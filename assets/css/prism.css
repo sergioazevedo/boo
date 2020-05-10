@@ -157,6 +157,7 @@ pre[class*="language-"].line-numbers>code {
 	pointer-events: none;
 	display: block;
 	counter-increment: linenumber;
+	height: 1.636em;
 }
 
 .line-numbers-rows>span:before {
